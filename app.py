@@ -1,8 +1,14 @@
-﻿import streamlit as st
+﻿import os
+import streamlit as st
 from dotenv import load_dotenv
-from mindos.graph import create_mindos_graph
 
+# 1. Injeta a chave no sistema ANTES de importar o MINDOS
 load_dotenv()
+if "GROQ_API_KEY" in st.secrets:
+    os.environ["GROQ_API_KEY"] = st.secrets["GROQ_API_KEY"]
+
+# 2. Importa o módulo do agente somente após a chave estar visível no ambiente
+from mindos.graph import create_mindos_graph
 
 st.set_page_config(page_title="MINDOS AI", page_icon="🤖", layout="centered")
 st.title("🤖 MINDOS - Agente Autônomo")
