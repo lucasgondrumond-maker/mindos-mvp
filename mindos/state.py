@@ -1,7 +1,6 @@
-from typing import TypedDict, List, Annotated
-import operator
+from typing import TypedDict, List
 
-class AgentState(TypedDict):
+class MindosState(TypedDict):
     objective: str
     response: str
     messages: List[str]
