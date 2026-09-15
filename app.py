@@ -34,7 +34,20 @@ if user_input := st.chat_input("Digite sua mensagem aqui..."):
     with st.chat_message("assistant"):
         with st.spinner("MINDOS está pensando..."):
             result = graph.invoke({"objective": user_input})
-            resposta = result.get("next_node", str(result))
-            st.markdown(resposta)
 
-    st.session_state.messages.append({"role": "assistant", "content": resposta})
+# Extrai a resposta tratada do dicionário de estado
+if isinstance(result, dict):
+    # Tenta pegar da lista de mensagens (padrão LangGraph)
+    if "messages" in result and len(result["messages"]) > 0:
+        resposta = result["messages"][-1].content
+    # Se houver outra chave de saída específica
+    elif "response" in result:
+        resposta = result["response"]
+    else:
+        resposta = str(result)
+else:
+    resposta = str(result)
+
+st.markdown(resposta)
+
+  
